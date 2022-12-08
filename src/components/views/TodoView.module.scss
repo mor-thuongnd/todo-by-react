@@ -1,0 +1,23 @@
+.page {
+  display: flex;
+  gap: 24px;
+  padding: 24px;
+  overflow: auto;
+  &::-webkit-scrollbar {
+    height: 8px;
+  }
+  &::-webkit-scrollbar-track {
+    background: white;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #e0e0e0;
+    border-radius: 4px;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: #ccc;
+  }
+  .col-area {
+    min-width: 250px;
+    width: calc(25% - 8px);
+  }
+}

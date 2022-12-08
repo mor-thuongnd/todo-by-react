@@ -1,0 +1,59 @@
+.column-item {
+  border: 1px solid #dcdcdc;
+  background: #fff;
+  padding: 12px;
+  border-radius: 4px;
+  input {
+    margin-bottom: 12px;
+    height: 32px;
+    width: 100%;
+    border-radius: 4px;
+    border: 1px solid #dcdcdc;
+    padding-left: 12px;
+  }
+  .title {
+    font-weight: bold;
+    color: #333;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    word-break: break-all;
+    font-size: 16px;
+  }
+  .created {
+    color: #888;
+    font-size: 14px;
+  }
+  .list-btn {
+    display: flex;
+    gap: 12px;
+    margin-top: 4px;
+    button {
+      padding: 4px 12px;
+      border-radius: 4px;
+      font-weight: bold;
+      border: 0;
+      outline: 0;
+      cursor: pointer;
+      width: max-content;
+      color: #fff;
+      &.btn-submit {
+        background: #27ae60;
+      }
+      &.btn-cancel {
+        background: #c0392b;
+      }
+    }
+  }
+  .label-footer {
+    font-size: 16px;
+    margin-top: 4px;
+    &.text-done {
+      color: #27ae60;
+    }
+    &.text-cancel {
+      color: #c0392b;
+    }
+  }
+}

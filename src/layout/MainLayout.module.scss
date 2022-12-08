@@ -1,0 +1,10 @@
+.main-layout {
+  display: flex;
+  flex-wrap: wrap;
+  .sidebar-scoped {
+    width: 300px;
+  }
+  .main-page {
+    width: calc(100% - 300px);
+  }
+}
