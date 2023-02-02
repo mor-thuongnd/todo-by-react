@@ -3,6 +3,7 @@ import "assets/GlobalStyles.scss";
 import MainLayout from "layout/MainLayout";
 import { router } from "routes";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
 function App() {
   return (
     <Router>

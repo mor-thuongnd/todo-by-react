@@ -1,10 +1,12 @@
 import { useState } from "react";
-import { getFormatTime } from "utils/time";
 import { COLUMN_STATE } from "constants";
 import ColumnArea from "components/todo/ColumnArea";
 import ColumnItem from "components/todo/ColumnItem";
 import classNames from "classnames/bind";
 import styles from "./TodoView.module.scss";
+import { useSelector } from "react-redux";
+import { selectTodos } from "store/reducers/todo";
+
 const cx = classNames.bind(styles);
 function TodoView() {
   // const
@@ -25,7 +27,7 @@ function TodoView() {
 
   // data
   const [addMode, setAddMode] = useState(false);
-  const [todos, setTodos] = useState([]);
+  const { todos } = useSelector(selectTodos);
 
   // computed
   const getListItemByState = (state) => {
@@ -36,44 +38,13 @@ function TodoView() {
   const addNewItem = () => {
     setAddMode(true);
   };
-  const handleSubmitBtn = (addMode, emitData) => {
-    if (addMode) {
-      setTodos((prev) => {
-        let id = 1;
-        if (todos.length) {
-          id = Math.max(...todos.map((c) => c.id)) + 1;
-        }
-        const newItem = {
-          id,
-          name: emitData,
-          created_at: getFormatTime(new Date()),
-          state: COLUMN_STATE.NEW,
-        };
-        return [...prev, newItem];
-      });
-      setAddMode(false);
-    } else {
-      changeItemState(emitData, COLUMN_STATE.DONE);
-    }
-  };
-  const changeItemState = (itemId, state) => {
-    const idx = todos.findIndex((item) => item.id === itemId);
-    if (idx !== -1) {
-      let newArr = [...todos];
-      newArr[idx] = {
-        ...newArr[idx],
-        lastModified: getFormatTime(new Date()),
-        state,
-      };
-      setTodos(newArr);
-    }
-  };
-  const handleCancelBtn = (addMode, emitData) => {
+  const handleSubmitBtn = (addMode) => {
     if (addMode) {
       setAddMode(false);
-    } else {
-      changeItemState(emitData, COLUMN_STATE.CANCEL);
     }
+  };
+  const handleCancelBtn = () => {
+    setAddMode(false);
   };
 
   // template

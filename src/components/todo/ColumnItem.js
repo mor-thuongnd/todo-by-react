@@ -1,7 +1,11 @@
 import { useState } from "react";
+import { getFormatTime } from "utils/time";
 import { COLUMN_STATE } from "constants";
 import classNames from "classnames/bind";
 import styles from "./ColumnItem.module.scss";
+import { useSelector, useDispatch } from "react-redux";
+import { addTodo, setTodoState, selectTodos } from "store/reducers/todo";
+
 const cx = classNames.bind(styles);
 
 function ColumnItem({
@@ -14,6 +18,8 @@ function ColumnItem({
 }) {
   // data
   const [name, setName] = useState("");
+  const dispatch = useDispatch();
+  const { todos } = useSelector(selectTodos);
 
   // computed
   const getFooterLabel = (state) => {
@@ -22,6 +28,8 @@ function ColumnItem({
         return "Hoàn thành lúc:";
       case COLUMN_STATE.CANCEL:
         return "Đã hủy lúc:";
+      default:
+        return "";
     }
   };
   const getLabelSubmitBtn = () => {
@@ -33,11 +41,39 @@ function ColumnItem({
 
   // methods
   const onClickSubmit = () => {
-    const emitData = addMode ? name : item.id;
-    handleSubmitBtn(addMode, emitData);
+    if (addMode) {
+      let id = 1;
+      if (todos.length) {
+        id = Math.max(...todos.map((c) => c.id)) + 1;
+      }
+      const newItem = {
+        id,
+        name,
+        created_at: getFormatTime(new Date()),
+        state: COLUMN_STATE.NEW,
+      };
+      dispatch(addTodo(newItem));
+    } else {
+      const data = {
+        ...item,
+        state: COLUMN_STATE.DONE,
+        lastModified: getFormatTime(new Date()),
+      };
+      dispatch(setTodoState({ todoId: item.id, data }));
+    }
+    handleSubmitBtn(addMode);
   };
   const onClickCancel = () => {
-    handleCancelBtn(addMode, item.id);
+    if (addMode) {
+      handleCancelBtn(addMode);
+    } else {
+      const data = {
+        ...item,
+        state: COLUMN_STATE.CANCEL,
+        lastModified: getFormatTime(new Date()),
+      };
+      dispatch(setTodoState({ todoId: item.id, data }));
+    }
   };
 
   return (
